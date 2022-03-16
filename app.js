@@ -132,7 +132,7 @@ app.get("/posts", authenticateToken, async (request, response) => {
   response.status(200).json({ data: postsData });
 });
 
-app.post("/posts/", authenticateToken, async (request, response) => {
+app.post("/posts", authenticateToken, async (request, response) => {
   const blogsData = request.body;
   let values = [];
   let blogDataString = blogsData
