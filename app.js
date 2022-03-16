@@ -36,10 +36,13 @@ initializeDBAndServer();
 //MiddleWare for token authentication
 const authenticateToken = (request, response, next) => {
   let jwtToken;
-  const authHeader = request.headers["Authorization"];
+
+  const authHeader = request.headers["authorization"];
+  console.log(authHeader);
   if (authHeader !== undefined) {
     jwtToken = authHeader.split(" ")[1];
   }
+
   if (jwtToken === undefined) {
     response.status(401).json({ error: "invalid jwt token please login" });
   } else {
@@ -116,13 +119,13 @@ app.get("/", (request, response) => {
   response.send("Testing Get Route");
 });
 
-app.get("/posts/", authenticateToken, async (request, response) => {
+app.get("/posts", authenticateToken, async (request, response) => {
   const getPostsQuery = `
     SELECT
       *
     FROM
-      blog;`;
-  const postsData = await db.all(getPostsQuery);
+      posts;`;
+  const postsData = await database.all(getPostsQuery);
   if (postsData === undefined) {
     response.status(400).json({ status: "There are no post in Database" });
   }
