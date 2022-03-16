@@ -132,4 +132,17 @@ app.get("/posts", authenticateToken, async (request, response) => {
   response.status(200).json({ data: postsData });
 });
 
+app.post("/posts/", authenticateToken, async (request, response) => {
+  const blogsData = request.body;
+  let values = [];
+  let blogDataString = blogsData
+    .map(
+      (each) => `(${each.id}, '${each.title}', '${each.body}', ${each.userId})`
+    )
+    .join(", ");
+  const saveBlogQuery =
+    `INSERT INTO posts(id, title, body, userId) values ` + blogDataString;
+  await database.run(saveBlogQuery);
+  response.send("Blogs Data added successfully");
+});
 module.exports = app;
