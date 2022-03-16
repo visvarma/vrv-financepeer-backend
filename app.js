@@ -41,13 +41,11 @@ const authenticateToken = (request, response, next) => {
     jwtToken = authHeader.split(" ")[1];
   }
   if (jwtToken === undefined) {
-    response.status(401);
-    response.send("Invalid JWT Token");
+    response.status(401).json({ error: "invalid jwt token please login" });
   } else {
     jwt.verify(jwtToken, process.env.TOKEN, async (error, payload) => {
       if (error) {
-        response.status(401);
-        response.send("Invalid JWT Token");
+        response.status(401).json({ error: "invalid jwt token please login" });
       } else {
         next();
       }
