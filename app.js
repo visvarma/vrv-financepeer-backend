@@ -115,10 +115,6 @@ app.post("/login/", async (request, response) => {
   }
 });
 
-app.get("/", (request, response) => {
-  response.send("Testing Get Route");
-});
-
 app.get("/posts", authenticateToken, async (request, response) => {
   const getPostsQuery = `
     SELECT
@@ -145,4 +141,3 @@ app.post("/posts", authenticateToken, async (request, response) => {
   await database.run(saveBlogQuery);
   response.send("Blogs Data added successfully");
 });
-module.exports = app;
